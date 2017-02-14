@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/twemoji-awesome.css">
+    <link rel="stylesheet" href="stylesheets/signin.css">
+    <link rel="stylesheet" href="stylesheets/mk12ok.css">
+    <script src="javascripts/socket.io.js"></script>
+    <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top" id="pasek" style="visibility: hidden">
+      <div class="container">
+        <div class="navbar-header"><a class="navbar-brand" id="title" href="#" data-toggle="modal" data-target="#infoModal">iAmHere 2.2</a>
+          <div id="myButtons">
+            <button class="btn btn-sm btn-info head" id="mapbutton" style="display: none"><i class="fa fa-globe fa-lg"></i></button>
+            <button class="btn btn-sm btn-info head" id="privateChatbutton" style="display: none"><i class="fa fa-user fa-lg"></i></button>
+            <button class="btn btn-sm btn-info head" id="chatbutton"><i class="fa fa-commenting fa-lg"></i></button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container" id="mapa" style="display: none"></div>
+    <div class="container" id="splash">
+      <h1>I<br>Am<br>Here</h1><br><br>
+      <button class="btn btn-lg btn-primary btn-block" id="startApp" type="button">Start</button>
+      <br><br>
+      <p id="authors">iAmHere 2.22, (c) mkrok, 2017</p>
+    </div>
+    <div class="container" id="signin" style="display: none">
+      <h1 id="headline">iAmHere 2.2</h1>
+      <form class="form-signin"><br>
+        <div class="form-signin-heading" id="authInfo">Please sign in</div>
+        <div id="authForm">
+          <input class="form-control" id="username" type="text" maxlength="10" placeholder="username" required autofocus>
+          <input class="form-control" id="password" type="password" maxlength="20" placeholder="password" required>
+          <button class="btn btn-lg btn-primary btn-block" id="login" type="button">Sign in</button>
+          <button class="btn btn-lg btn-primary btn-block" id="register" type="button">Register</button><br>
+          <p id="err"></p><br>
+        </div>
+      </form>
+    </div>
+    <div class="container" id="chat" style="display: none">
+      <div class="row">
+        <div class="col-xs-3" id="lewy">
+          <div id="usersWrapper">
+            <div id="users"></div>
+          </div>
+        </div>
+        <div class="col-xs-9" id="prawy">
+          <div id="chat-box-div">
+            <div id="chatlog-display-div"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <form id="chatform" action="">
+            <div class="form-group">
+              <input class="submit" id="chat-box-div-submit" type="submit" value="Send">
+              <input class="form-control" id="chat-box-div-txtinpt" type="text" autocomplete="off" maxlength="255" spellcheck="false" placeholder="Type a message">
+            </div>
+          </form>
+        </div>
+      </div><br>
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="activeRoomWrapper">
+            <p id="activeRoom"></p>
+          </div>
+        </div>
+      </div>
+      <!--div class="row">
+        <div class="col-xs-12">
+            <div id="capturePhotoWrapper">
+                <button class="btn btn-lg btn-primary btn-block" id="capturePhoto">
+                    <i class="fa fa-camera"></i>
+                </button>
+          </div>
+        </div>
+      </div-->
+    </div>
+    <div class="container" id="privateChat" style="display: none">
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="pm-display"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <form id="privateChatform">
+            <div class="form-group">
+              <input class="submit" id="privateChatSubmit" type="submit" value="Send">
+              <input class="form-control" id="privateChatTxt" type="text" autocomplete="off" maxlength="255" spellcheck="false" placeholder="Type a message">
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12"><br>
+          <div id="privateChatWrapper">
+            <p id="activeUsers">Private chat</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="infoModal" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">iAmHere 2.1</h4>
+          </div>
+          <div class="modal-body">
+            <p>miroslaw.krok@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="cordova.js"></script>
+    <script src="javascripts/onDeviceReady.js"></script>
+    <script src="javascripts/initMap.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYtFG6gg-yuuYqav4XKq7d5P2I1jQIEE0&amp;callback=initMap"></script>
+    <script src="javascripts/twaEmojiParser.js"></script>
+    <script src="javascripts/iAHc.js"></script>
+  </body>
+</html>

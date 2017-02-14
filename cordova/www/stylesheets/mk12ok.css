@@ -1,0 +1,369 @@
+body {
+    background-color: #246; 
+    font-family: sans-serif; 
+    color: #FFF;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#startApp {
+    color: #fff;
+}
+
+#myButtons {
+    display: inline-block;
+    float: right;
+}
+
+#capturePhoto {
+    margin-top: 10px;
+    color: #fff;
+    background-color: #246;
+}
+
+#capture {
+    border: 1px;
+    border-style: solid;
+    border-color: #ADEEF9;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 2px;
+}
+
+.modal-content  {
+    color: #ADEEF9;
+    color: #FFF;
+    background-color: #444;
+}
+
+.modal-header {
+    border-bottom: 1px solid #ADEEF9;
+    border-bottom: 1px solid #FFF;
+}
+
+.close {
+    color: #ADEEF9;
+    color: #FFF;
+    opacity: 0.5;
+}
+
+#title {
+    background-color: #246;
+    color: #ADEEF9;
+    color: #FFF;
+    font-size: 2em;
+    border-color:  #246;
+}
+
+#pasek {
+    positin: fixed;
+    top: 0;
+    border-color: #ADEEF9; 
+    border-color: #FFF;
+    background-color: #246;
+}
+
+.btn.btn-info.head {
+  margin-top: 4px;
+  font-size: 1.5em;
+  background: #246;
+  border-color: #246;
+  color: #ADEEF9;
+  color: #FFF;
+}
+
+#mapa {
+  margin-top: 10px;
+  padding: 0;
+  border: 5px;
+  border-style: solid;
+  border-color: #ADEEF9;
+  border-color: #FFF;
+  border-radius: 1px;
+  width: 1900px;
+  height: 1000px;
+}
+
+#geo {
+  margin-right: 13px;
+  margin-bottom: 10px;
+  border: 1px;
+  border-style: solid;
+  border-color: white;
+  color: #777;
+  background-color: white;
+}
+
+#pm-display {
+    margin-top: 10px;
+    background-color: #246;
+    width: 100%;
+    height: 1000px;
+    border: 1px;
+    border-style: solid;
+    border-color: #ADEEF9;
+    border-radius: 5px;
+    text-align: left;
+    overflow-y: scroll;
+}
+
+#splash {
+    padding-top: 2%;
+    padding-left: 20%;
+    padding-right: 20%;
+    height: 600px;
+}
+
+#splash>h1 {
+    font-size: 4em;
+}
+
+#authors {
+    position: fixed;
+    bottom: 50px;
+    padding-left: 5%;
+    padding-right: 5%;
+    font-size: 1em;
+}
+
+#authors>p {
+    text-align: center;
+}
+
+#headline {
+    margin: 0;
+}
+
+#roomList, #contact, #about  {
+    background-color: #FFF; !important;
+    border: 1px;
+    border-style: solid;
+    border-color: #000;
+    border-radius: 5px;
+}
+
+#roomList>ul>a {
+    color: #246;
+}
+
+#roomList>ul {
+    padding: 5px;
+}
+
+#contact>li, #about>li {
+    color: #246;
+    font-size: 1em;
+}
+
+#about {
+    text-align: center;
+}
+
+#lewy {
+    padding: 2px;
+    padding-right: 0;
+    height: 80%;
+    margin-top: 10px;
+}
+
+#prawy {
+    height: 80%;
+    padding: 2px;
+    margin-top: 10px;
+
+}
+
+#chatlog-display-div {
+    background-color: #246;
+    width: 100%;
+    height: 1000px;
+    border: 1px;
+    border-style: solid;
+    border-color: #ADEEF9;
+    border-radius: 5px;
+    text-align: left;
+    overflow-y: scroll;
+    font-size: 1em;
+}
+
+#activeRoomWrapper, #privateChatWrapper {
+    border: 1px;
+    border-style: solid;
+    border-color: #ADEEF9;
+    border-radius: 5px;
+    background-color: #246;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#usersWrapper, #chat-box-div {
+    padding: 3px;
+}
+
+#users {
+    color: #ddd;
+    color: #000;
+    padding-left: 0px;
+    background-color: #246;
+    width: 100%;
+    height: 1000px;
+    border: 1px; 
+    border-style: solid;
+    border-color: #ADEEF9;
+    border-radius: 5px;
+    text-align: left;
+    overflow-y: scroll;
+    font-size: 1em;
+}
+
+#users>a {
+    color: #fff;
+    padding-left: 3px;
+}
+
+#chat, #privateChat {
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+#privateChat-controls-div, #chat-controls-div {
+    width: 100%;
+}
+
+#privateChatUserForm {
+    width: 100%;
+}
+
+#activeRoom, #activeUsers {
+    color: #ADEEF9;
+    padding: 0;
+    margin: 5px;
+}
+
+#activeUsers>h4>span {
+    color: #55FF55;
+    width: 100%;
+}
+
+#chatform, #privateChatform {
+    margin-top: 5px;
+    padding: 3px;
+    width: 100%;
+}
+
+#privateChatTxt, #chat-box-div-txtinpt {
+    float: right;
+    line-height: 1.42857143;
+    height: 1.5em;
+    font-size: 1.3em;
+    margin-left: 3px;
+    margin-top: 0px;
+    width: 80%;
+    color: #222;
+    background-color: #FFF;
+    border: 1px;
+    border-style: solid;
+    border-color: #000;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+#privateChatSubmit, #chat-box-div-submit {
+    float: right;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 1.2em;
+    margin-left: 3px;
+    margin-top: 0px;
+    border: 1px; 
+    border-style: solid;
+    border-radius: 5px;
+    background-color: #5bc0de;
+    border-color: black;
+    color: #333;
+}
+
+#err {
+    color: white;
+    font-size: 1.2em;
+}
+
+#authInfo {
+    font-size: 1.2em;
+}
+
+.naglowek, .stopka {
+    background-color: #246;
+}
+
+.headerText {
+    display: inline-block;
+    float: left;
+}
+
+.navbar {
+   background-color: #246;
+   color: #FFF;
+}
+
+.navbar-default {
+    border-color: #FFF;
+}
+
+.navbar-header {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.navbar-default .navbar-nav>li>a,
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-nav>li>a:hover {
+    background-color: transparent;
+    font-size: 1.5em;
+    color: #CCC;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    background-color: transparent;
+    font-size: 1.5em;
+    color: #AAA;
+}
+
+.navbar-default .navbar-toggle,
+.navbar-default .navbar-toggle:focus  {
+    font-size: 1.5em;
+    background-color: transparent;
+    color: #AAA;
+}
+
+.open {
+     background-color: transparent;
+}
+
+::-webkit-input-placeholder {
+   color: #777;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #777;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #777;
+}
+
+:-ms-input-placeholder {
+   color: #777;
+}

@@ -243,10 +243,8 @@ function sendPrivateMessage(sender, receiver, message) {
     'use strict';
     var usersId = findUsersId(); // array of {username, id} of all users connected to server
     usersId.forEach(function (user) {
-        console.log('sender: ' + sender + ' receiver: ' + receiver + ' now checking: ' +user.id + ' ' + user.username);
         if (user.username === receiver) {
             timestamp = dateFormat(new Date());
-            console.log('receiver found');
             io.to(user.id).emit('privateChat', timestamp, sender, receiver, message);
         }
     });
@@ -289,11 +287,13 @@ setInterval(function() {
     'use strict';
     console.log(Date()+ " ping! ");
     io.emit('gdzie');
-    for (var k=0; k < rooms.length; k++) {
-        var markery = findMarkers(rooms[k]);
-        console.log('Sending data to group ' + rooms[k] + '(' + markery.length + ')');
-        io.to(rooms[k]).emit('markers', markery, rooms[k]);
-    }
+    setTimeout(function() {
+        for (var k=0; k < rooms.length; k++) {
+            var markery = findMarkers(rooms[k]);
+            console.log('Sending data to group ' + rooms[k] + '(' + markery.length + ')');
+            io.to(rooms[k]).emit('markers', markery, rooms[k]);
+        }
+    }, 2000);    
 }, pingInterval);
 
 io.on('connection', function (socket) {
@@ -306,6 +306,11 @@ io.on('connection', function (socket) {
             socket.handshake.address.substr(7) + '\nuser-agent: ' +
             socket.handshake.headers['user-agent']);
     socket.isAuthorized = false;
+    //***************************************************
+    //
+    // Cookie authorization
+    //
+    //***************************************************
     if (socket.request.headers.cookie) {
         var cookies = cookie.parse(socket.request.headers.cookie, {decode: true});
         if (cookies.iah) {
@@ -355,7 +360,55 @@ io.on('connection', function (socket) {
                 }
             });
         }
-    }
+    }   // end of cookie auth
+
+    socket.on('authToken', function (authToken) {
+        var username = decrypt(authToken);
+            username = plain(username);
+            db.query('SELECT ab, af, ah FROM _13a WHERE ab=?', [username], function (err, user) {
+                if (err) {
+                    return console.log(err);
+                }
+                if (user[0]) {
+                    socket.username = username;
+                    socket.isAuthorized = true;
+                    socket.room = user[0].ah || rooms[0];
+                    socket.join(socket.room);
+                    if (socket.room !== rooms[0]) {
+                        rooms.push(socket.room);
+                    }
+                    if (username === 'Hogwarts') {
+                        socket.pozycja = {lat: 50.0898, lng: 19.9814};
+                    } else {
+                        socket.pozycja = {lat: 50.061667, lng: 19.937222};
+                    }
+                    socket.emit('authAck', socket.username);
+                    if (user[0].af === 1) {
+                        socket.admin = true;
+                        socket.emit('adminAck');
+                    }
+                    socket.emit('updaterooms', rooms, socket.room);
+                    socket.broadcast.to(socket.room).emit('chat', timestamp, 'SERVER', socket.username + ' has connected');
+                    loadChat(socket, socket.room);
+                    setTimeout(function () {
+                        if (socket.handshake.headers['user-agent'] === 'node-XMLHttpRequest') {
+                            socket.emit('chat', timestamp, 'SERVER', 'Welcome ' + socket.username + ', you seem to be a plain text client!');
+                            socket.emit('chat', timestamp, 'SERVER', 'Type "/j planet_name" to change the planet');
+                        } else {
+                            socket.emit('chat', timestamp, 'SERVER', 'Welcome ' + socket.username);
+                            socket.emit('chat', timestamp, 'SERVER', 'Type "/j planet_name" to change the planet');
+                        }
+                    }, 500);
+                    console.log(timestamp + ' ' + socket.username + ' logged in from ' + socket.handshake.address.substr(7));
+                    logger.log(timestamp + ' ' + socket.username + ' logged in from ' + socket.handshake.address.substr(7));
+                    db.query('UPDATE _13a SET ad=?, ag=?, ah=? WHERE ab=?', [timestamp, socket.handshake.address.substr(7), socket.room, socket.username], function (err) {
+                        if (err) {
+                            return console.log(err);
+                        }
+                    });
+                }
+            });
+    });
 
     socket.on('authorize', function (username, password) {
       if (re.test(username) && re.test(password)) {
@@ -413,6 +466,7 @@ io.on('connection', function (socket) {
                     });
                     var cookieAck = cookie.serialize('iah', encrypt(username));
                     socket.emit('cookie', cookieAck);
+                    socket.emit('authToken', encrypt(username));
                     socket.emit('authAck', username);
                     if (user[0].af === 1) {
                         socket.admin = true;
