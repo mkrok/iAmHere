@@ -20,6 +20,22 @@ body {
     float: right;
 }
 
+#capturePhoto {
+    margin-top: 10px;
+    color: #fff;
+    background-color: #246;
+}
+
+#capture {
+    border: 1px;
+    border-style: solid;
+    border-color: #ADEEF9;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 2px;
+}
+
 .modal-content  {
     color: #ADEEF9;
     color: #FFF;
@@ -74,6 +90,26 @@ body {
   height: 1000px;
 }
 
+#geo {
+  margin-right: 13px;
+  margin-bottom: 10px;
+  border: 1px;
+  border-style: solid;
+  border-color: white;
+  color: #777;
+  background-color: white;
+}
+
+#sound {
+  margin-left: 13px;
+  margin-top: 10px;
+  border: 1px;
+  border-style: solid;
+  border-color: white;
+  color: #777;
+  background-color: white;
+}
+
 #pm-display {
     margin-top: 10px;
     background-color: #246;
@@ -116,7 +152,7 @@ body {
 
 #roomList, #contact, #about  {
     background-color: #FFF; !important;
-    border: 1px; 
+    border: 1px;
     border-style: solid;
     border-color: #000;
     border-radius: 5px;

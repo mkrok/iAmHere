@@ -188,11 +188,11 @@ function findUserPosition(user, namespace) {
     'use strict';
     var pos = {};
     var ns = io.of(namespace || "/");
-    Object.keys(ns.connected).forEach(function (id) { 
+    Object.keys(ns.connected).forEach(function (id) {
         if (ns.connected[id].username === user) {
             pos = ns.connected[id].pozycja;
             return pos;
-        } 
+        }
     });
     return pos;
 }
@@ -293,7 +293,7 @@ setInterval(function() {
             console.log('Sending data to group ' + rooms[k] + '(' + markery.length + ')');
             io.to(rooms[k]).emit('markers', markery, rooms[k]);
         }
-    }, 2000);    
+    }, 2000);
 }, pingInterval);
 
 io.on('connection', function (socket) {
@@ -713,4 +713,3 @@ io.on('connection', function (socket) {
     });
 
 });
-

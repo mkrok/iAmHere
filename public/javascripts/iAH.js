@@ -1,4 +1,6 @@
-var username,
+var CENTER_MAP = true,
+    SOUND = true,
+    username,
     password,
     authorized = false,
     wiad = [],
@@ -9,6 +11,7 @@ var username,
     privateChatPartner = '',
     privateChatPartnerPosition = {},
     privateChat = false,
+    onMe = false,
     grupa;
 
 // jQuery wrapper
@@ -23,14 +26,14 @@ var username,
 
         window.addEventListener('touchstart', removeRestrictions);
 
-        function removeRestrictions() {
+        function removeRestrictions () {
             var snd = document.querySelector('#chatSound');
             snd.play();
             window.removeEventListener('touchstart', removeRestrictions);
         }
         //$(window).trigger('touchstart');
 
-        function set_chat_height() {
+        function set_chat_height () {
             var windowHeight = $(window).height();
             var keybFactor = 0.5;
             var maxHeight = $(window).height() - 200 + 'px';
@@ -113,6 +116,23 @@ var username,
 
             $('#mapa').on('click', 'a.markerLink', sendPrivateMessage);
             $('#chat').on('click', 'a.markerLink', sendPrivateMessage);
+            document.getElementById('geo').addEventListener('click', function () {
+                CENTER_MAP = !CENTER_MAP;
+                if (CENTER_MAP) {
+                    map.setCenter(pos);
+                    document.getElementById('geo').style.color = '#777';
+                } else {
+                    document.getElementById('geo').style.color = '#ddd';
+                }
+            });
+            document.getElementById('sound').addEventListener('click', function () {
+                SOUND = !SOUND;
+                if (SOUND) {
+                    document.getElementById('sound').style.color = '#777';
+                } else {
+                    document.getElementById('sound').style.color = '#ddd';
+                }
+            });
 
             function sendPrivateMessage () {
                 var privateMessageReceiver = $(this).attr('who') || 'user not found!';
@@ -266,7 +286,9 @@ var username,
                 $('#chatlog-display-div').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #fff; font-size: 1.1em;">' + user + ':&nbsp&nbsp' + message + '</span><br>');
             }
             $('#chatlog-display-div').scrollTop($('#chatlog-display-div').prop('scrollHeight'));
-            chatBeep();
+            if (SOUND) {
+                chatBeep();
+            }    
         });
 
         socket.on('privateChat', function (timestamp, sender, receiver, message) {
@@ -278,7 +300,9 @@ var username,
                 $('#chatlog-display-div').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.1em;">' + sender + ':&nbsp&nbsp' + message + '</span><br>');
                 $('#chatlog-display-div').scrollTop($('#chatlog-display-div').prop('scrollHeight'));
             }
-            chatBeep();
+            if (SOUND) {
+                chatBeep();
+            }  
         });
 
         socket.on('privateChatAck', function (timestamp, privateUser, status) {
@@ -292,7 +316,9 @@ var username,
                 document.getElementById('activeUsers').innerHTML = 'Private chat';
                 privateChatPartner = '';
             }
-            chatBeep();
+            if (SOUND) {
+                chatBeep();
+            }  
         });
 
         socket.on('db_messages', function (rows) {
@@ -333,7 +359,9 @@ var username,
 
         socket.on('err', function (message) {
             console.log(message);
-            errorBeep();
+            if (SOUND) {
+                errorBeep();
+            }  
             document.getElementById('err').style.visibility = 'visible';
             document.getElementById('err').innerHTML = message;
         });
@@ -402,7 +430,9 @@ var username,
                 // centering map on our position
                 if (markerTitle === username) {
                     mypos = newLatLng;
-                    map.setCenter(newLatLng);
+                    if (CENTER_MAP) {
+                        map.setCenter(newLatLng);
+                    }
                     ikona = 'images/mymarker.png';
                     if ((lat === 50.061667) && (lng === 19.937222)) {
                         //alert('You don\'t send your position!');
