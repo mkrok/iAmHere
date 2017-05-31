@@ -1,4 +1,6 @@
-var username,
+var CENTER_MAP = true,
+    SOUND = true,
+    username,
     password,
     authorized = false,
     wiad = [],
@@ -15,79 +17,104 @@ var username,
 // jQuery wrapper
 (function ($) {
     // document.ready()
-    $(function () {
-
+    $(window).on( "load", function () {
         //setting max height of some elements
         $(window).bind('resize', function () {
             set_chat_height();
         });
         $(window).trigger('resize');
+        document.getElementById('startApp').style.display = 'inline-block';
+        document.getElementById('ajax-loader').style.display = 'none';
+        document.addEventListener('deviceready', function() {
+            document.addEventListener("backbutton", onBackKeyDown, false);
+            function onBackKeyDown() {
+                // Handle the back buttons
+                navigator.notification.confirm(
+                    'Terminate app?', // message
+                    onConfirm,            // callback to invoke with index of button pressed
+                    'Exit',           // title
+                    ['Cancel', 'Yes']     // buttonLabels
+                );
+            }
 
-        /*
-        window.addEventListener('touchstart', removeRestrictions);
+            function onConfirm(buttonIndex) {
+                if (buttonIndex === 2) {
+                    navigator.app.exitApp();
+                }
+            }
 
-        function removeRestrictions() {
-            var snd = document.querySelector('#chatSound');
-            snd.play();
-            window.removeEventListener('touchstart', removeRestrictions);
-        }
-        */
-
-        //$(window).trigger('touchstart');
+        }, false);
 
         function set_chat_height() {
             var windowHeight = $(window).height();
-            var keybFactor = 0.5;
-            var maxHeight = $(window).height() - 200 + 'px';
-            var maxWidth = $(window).width() - 10 + 'px';
+            var windowWidth = $(window).width();
             var splashDiv = document.getElementById('splash');
-            var chatDiv = document.getElementById('chatlog-display-div');
-            var mapDiv = document.getElementById('mapa');
-            var pmDiv = document.getElementById('pm-display');
+            var chatDiv = document.getElementById('messages');
             var usersDiv = document.getElementById('users');
-            splashDiv.style.height = maxHeight;
-            splashDiv.scrollTop = chatDiv.scrollHeight;
-            chatDiv.style.height = keybFactor * windowHeight + 'px';
+            var mapDiv = document.getElementById('mapa');
+            var pmDiv = document.getElementById('privateMessages');
+            document.getElementById('chat').style.height = windowHeight -100 + 'px';
+            document.getElementById('chat').style.width = windowWidth + 'px';
+            document.getElementById('privateChat').style.height = windowHeight - 100 + 'px';
+            document.getElementById('privateChat').style.width = windowWidth + 'px';
+            splashDiv.style.height = windowHeight - 100 + 'px';
+            chatDiv.style.height = windowHeight - 130 + 'px';
             chatDiv.scrollTop = chatDiv.scrollHeight;
-            usersDiv.style.height = keybFactor * windowHeight + 'px';
-            usersDiv.scrollTop = usersDiv.scrollHeight;
-            pmDiv.style.height = keybFactor * windowHeight + 'px';
+            usersDiv.style.height = windowHeight - 130 + 'px';
+            users.scrollTop = usersDiv.scrollHeight;
+            pmDiv.style.height = windowHeight - 130 + 'px';
             pmDiv.scrollTop = pmDiv.scrollHeight;
-            mapDiv.style.height = $(window).height() - 70 + 'px';
-            mapDiv.style.width = $(window).width() + 'px';
+            mapDiv.style.height = windowHeight - 50 + 'px';
+            mapDiv.style.width = windowWidth + 'px';
             google.maps.event.trigger(map,'resize');
         }
 
         document.getElementById('privateChatbutton').addEventListener('click', function () {
+            // header buttons
             document.getElementById('privateChatbutton').style.display = 'none';
             document.getElementById('chatbutton').style.display = 'inline-block';
             document.getElementById('mapbutton').style.display = 'inline-block';
+            // body divs
+            document.getElementById('stopka').style.display = 'none';
+            document.getElementById('chatForm').style.display = 'none';
+            document.getElementById('privateChatForm').style.display = 'block';        
             document.getElementById('chat').style.display = 'none';
-            //document.getElementById('mapa').style.display = 'none';
+            document.getElementById('mapa').style.display = 'none';
             document.getElementById('privateChat').style.display = 'block';
-            $('#pm-display').scrollTop($('#pm-display').prop('scrollHeight'));
+            $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
         });
 
         document.getElementById('chatbutton').addEventListener('click', function () {
+            // header buttons
             if (privateChat) {
                 document.getElementById('privateChatbutton').style.display = 'inline-block';
             }
             document.getElementById('chatbutton').style.display = 'none';
             document.getElementById('mapbutton').style.display = 'inline-block';
+            // body divs
+            // body divs
+            document.getElementById('stopka').style.display = 'none';
+            document.getElementById('chatForm').style.display = 'block';
+            document.getElementById('privateChatForm').style.display = 'none';        
             document.getElementById('chat').style.display = 'block';
-            //document.getElementById('mapa').style.display = 'none';
+            document.getElementById('mapa').style.display = 'none';
             document.getElementById('privateChat').style.display = 'none';
-            $('#chatlog-display-div').scrollTop($('#chatlog-display-div').prop('scrollHeight'));
+            $('#messages').scrollTop($('#messages').prop('scrollHeight'));
         });
 
         document.getElementById('mapbutton').addEventListener('click', function () {
+            // header buttons
             if (privateChat) {
                 document.getElementById('privateChatbutton').style.display = 'inline-block';
             }
             document.getElementById('mapbutton').style.display = 'none';
             document.getElementById('chatbutton').style.display = 'inline-block';
-            document.getElementById('mapa').style.display = 'block';
+            // body divs
+            document.getElementById('stopka').style.display = 'none';
+            document.getElementById('chatForm').style.display = 'none';
+            document.getElementById('privateChatForm').style.display = 'none';        
             document.getElementById('chat').style.display = 'none';
+            document.getElementById('mapa').style.display = 'block';
             document.getElementById('privateChat').style.display = 'none';
             $(window).trigger('resize');
         });
@@ -96,45 +123,54 @@ var username,
 
             // loading socket.io
             var socket = io('http://185.3.114.84');
-
-            /*document.getElementById('capturePhoto').addEventListener("click", takePic);
-
-            function takePic () {
-               navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
-                   destinationType: Camera.DestinationType.FILE_URI });
-
-               function onSuccess (imageURI) {
-                    // display image
-                    $('#chatlog-display-div').append('<img id="capture" src="' + imageURI + '" height="200" width="200">');
-                    $('#chatlog-display-div').scrollTop($('#chatlog-display-div').prop('scrollHeight'));
-                    // send image to server
-                    var stream = ss.createStream();
-                    var filename = path.basename(imageURI);
-                    ss(socket).emit('photo', stream, {name: filename});
-                    fs.createReadStream(imageURI).pipe(stream);
-                }
-
-                function onFail (message) {
-                    alert('Failed because: ' + message);
-                }
-            }*/
-
             $('#mapa').on('click', 'a.markerLink', sendPrivateMessage);
             $('#chat').on('click', 'a.markerLink', sendPrivateMessage);
+            
+            document.getElementById('planeta').addEventListener('click', function () {
+                document.getElementById('planetaform').style.display = 'inline-block';  
+            });   
+            
+            document.getElementById('tytul').addEventListener('click', function () {
+                navigator.notification.alert(
+                    'miroslaw.krok@gmail.com',  // message
+                     function () {},         // callback
+                     'iAmHere 2.31',            // title
+                     'OK'                  // buttonName
+                );    
+            });
+                
             document.getElementById('geo').addEventListener('click', function () {
-                map.setCenter(cordovaPos);
+                CENTER_MAP = !CENTER_MAP;
+                if (CENTER_MAP) {
+                    map.setCenter(cordovaPos);
+                    document.getElementById('geo').style.color = '#777';
+                } else {
+                    document.getElementById('geo').style.color = '#ddd';
+                }
+            });
+
+            document.getElementById('sound').addEventListener('click', function () {
+                SOUND = !SOUND;
+                if (SOUND) {
+                    document.getElementById('sound').style.color = '#777';
+                } else {
+                    document.getElementById('sound').style.color = '#ddd';
+                }
             });
 
             function sendPrivateMessage () {
                 var privateMessageReceiver = $(this).attr('who') || 'user not found!';
-                console.log('starting private chat with ' + privateMessageReceiver);
-                document.getElementById('privateChatbutton').style.display = 'none';
-                document.getElementById('mapbutton').style.display = 'inline-block';
-                document.getElementById('chatbutton').style.display = 'inline-block';
-                document.getElementById('privateChat').style.display = 'block';
-                document.getElementById('chat').style.display = 'none';
-                //document.getElementById('mapa').style.display = 'none';
-                socket.emit('privateUser', privateMessageReceiver);
+                if (privateMessageReceiver !== username) {
+                    document.getElementById('privateChatbutton').style.display = 'none';
+                    document.getElementById('mapbutton').style.display = 'inline-block';
+                    document.getElementById('chatbutton').style.display = 'inline-block';
+                    document.getElementById('privateChat').style.display = 'block';
+                    document.getElementById('chat').style.display = 'none';
+                    document.getElementById('chatForm').style.display = 'none';
+                    document.getElementById('privateChatForm').style.display = 'block';
+                    document.getElementById('mapa').style.display = 'none';
+                    socket.emit('privateUser', privateMessageReceiver);
+                }
             }
 
         document.getElementById('login').addEventListener('click', function () {
@@ -147,7 +183,6 @@ var username,
                     document.getElementById('err').style.visibility = 'visible';
                     document.getElementById('err').innerHTML = 'Please fill the form';
                 } else {
-                    console.log('sending ' + username + ':' + password);
                     socket.emit('authorize', username, password);
                 }
             } else {
@@ -156,27 +191,33 @@ var username,
             }
         });
 
+        $('#planetaform').submit(function (e) {
+            e.preventDefault();
+            var newPlanet = $('#planetText').val();
+            document.getElementById('planetaform').style.display = 'none'; 
+            if (newPlanet.trim().length !== 0) {
+                socket.emit('switchRoom', newPlanet);
+                $('#planetText').focus().val('');
+            }
+        });
+        
         $('#chatform').submit(function (e) {
             e.preventDefault();
             var message = {
-                text: $('#chat-box-div-txtinpt').val()
+                text: $('#chatText').val()
             };
             if (message.text.trim().length !== 0) {
                 socket.emit('chat', socket.username, message.text);
-                $('#chat-box-div-txtinpt').focus().val('');
+                $('#chatText').focus().val('');
             }
         });
 
-        $('#privateChatUserForm').submit(function (e) {
+        $('#privateChatForm').submit(function (e) {
             e.preventDefault();
-        });
-
-        $('#privateChatform').submit(function (e) {
-            e.preventDefault();
-            var privateMessage = $('#privateChatTxt').val();
+            var privateMessage = $('#messageText').val();
             if (privateMessage.trim().length !== 0 && privateChatPartner.length !== 0) {
                 socket.emit('privateMessage', privateChatPartner, privateMessage);
-                $('#privateChatTxt').focus().val('');
+                $('#messageText').focus().val('');
             }
         });
 
@@ -200,21 +241,26 @@ var username,
         });
 
         socket.on('connect', function () {
+            var authToken;
             console.log('connected');
-            if (window.sessionStorage) {
-                var authToken = window.sessionStorage.getItem('iah');
-                if (authToken) {
-                    socket.emit('authToken', authToken);
-                }
-
+            if (window.localStorage) {
+                authToken = window.localStorage.getItem('iah');
+            } else if (window.sessionStorage) {
+                authToken = window.sessionStorage.getItem('iah');  
+            }
+            if (authToken) {
+                socket.emit('authToken', authToken);
             }
             setTimeout(function () {
                 if (authorized) {
                     document.getElementById('mapbutton').style.display = 'none';
                     document.getElementById('chatbutton').style.display = 'inline-block';
                     document.getElementById('mapa').style.display = 'block';
+                    document.getElementById('stopka').style.display = 'none';
                     document.getElementById('chat').style.display = 'none';
                     document.getElementById('privateChat').style.display = 'none';
+                    document.getElementById('chatForm').style.display = 'none';
+                    document.getElementById('privateChatForm').style.display = 'none';
                 } else {
                     document.getElementById('splash').style.display = 'none';
                     document.getElementById('signin').style.display = 'block';
@@ -228,10 +274,17 @@ var username,
         });
 
         socket.on('authToken', function (authToken) {
+            if (window.localStorage) {
+                window.localStorage.setItem('iah', authToken);
+            }
             if (window.sessionStorage) {
                 window.sessionStorage.setItem('iah', authToken);
             }
         });
+
+        //socket.on('cookie', function (cookie) {
+            //document.cookie = cookie;   
+        //});
 
         socket.on('setPrivateUserPosition', function (pozycja) {
             privateChatPartnerPosition = pozycja;
@@ -247,7 +300,7 @@ var username,
             $('#users').html('');
             users.forEach(function (user) {
                 if (user === socket.username) {
-                    $('#users').append('<a href="#" class="markerLink" who="' + user + 
+                    $('#users').append('<a href="#" style="color: yellow;" class="markerLink" who="' + user + 
                         '">' + user + '</a><br>');
                 } else {
                     $('#users').append('<a href="#" class="markerLink" who="' + user + 
@@ -259,8 +312,8 @@ var username,
         socket.on('updaterooms', function (rooms, current_room) {
             grupa = current_room;   //grupa may not be necessary at all
             socket.room = current_room;
-            document.getElementById('activeRoom').innerHTML = 'user: <span style="color: #fff;">' +
-                    username + '</span>&nbsp&nbsp&nbsp&nbsp planet: <span style="color: #fff;">' +
+            document.getElementById('planetaform').style.display = 'none'; 
+            document.getElementById('planeta').innerHTML = 'planet: <span style="color: yellow;">' +
                     current_room + '</span>';
             $('#roomList').html('');
             rooms.forEach(function (value) {
@@ -271,52 +324,63 @@ var username,
         socket.on('chat', function (timestamp, user, message) {
             message = parsed(message);
             if (user === 'SERVER') {
-                $('#chatlog-display-div').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp<span style="color: #ADEEFF; font-size: 1.1em;">&nbsp&nbsp' + message + '</span><br>');
+                $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp<span style="color: #ADEEFF; font-size: 1.1em;">&nbsp&nbsp' + message + '</span><br>');
             } else {
-                $('#chatlog-display-div').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #fff; font-size: 1.1em;">' + user + ':&nbsp&nbsp' + message + '</span><br>');
+                $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #fff; font-size: 1.1em;">' + user + ':&nbsp&nbsp' + message + '</span><br>');
             }
-            $('#chatlog-display-div').scrollTop($('#chatlog-display-div').prop('scrollHeight'));
-            navigator.notification.beep();
+            $('#messages').scrollTop($('#messages').prop('scrollHeight'));
+            if (SOUND) {
+                navigator.notification.beep();
+            }
         });
 
         socket.on('privateChat', function (timestamp, sender, receiver, message) {
             message = parsed(message);
-            if (sender === privateChatPartner || receiver === privateChatPartner) {
-                $('#pm-display').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #fff; font-size: 1.1em;">' + sender + ':&nbsp&nbsp' + message + '</span><br>');
-                $('#pm-display').scrollTop($('#pm-display').prop('scrollHeight'));
-            } else {
-                $('#chatlog-display-div').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.1em;">' + sender + ':&nbsp&nbsp' + message + '</span><br>');
-                $('#chatlog-display-div').scrollTop($('#chatlog-display-div').prop('scrollHeight'));
+            if (sender === privateChatPartner) {
+                $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #666; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                    '<span>' + message + '</span></div><br><br>');
+                $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
+            } else if (receiver === privateChatPartner){
+                $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #bbb; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                    '<span>' + message + '</span></div><br><br>');
+                $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
+            } else {    
+                $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.1em;">' + sender + ':&nbsp&nbsp' + message + '</span><br>');
+                $('#messages').scrollTop($('#messages').prop('scrollHeight'));
             }
-            navigator.notification.beep();
+            if (SOUND) {
+                navigator.notification.beep();
+            }
         });
 
         socket.on('privateChatAck', function (timestamp, privateUser, status) {
             privateChat = true;
-            $('#pm-display').html('');
+            $('#privateMessages').html('');
             if (status !== ' not found') {
-                document.getElementById('activeUsers').innerHTML = 'Private chat with <span style="color: #FFF;">' +
+                document.getElementById('activeUser').innerHTML = 'Chat with <span style="color: yellow;">' +
                     privateUser + '</span>';
                 privateChatPartner = privateUser;
             } else {
-                document.getElementById('activeUsers').innerHTML = 'Private chat';
+                document.getElementById('activeUser').innerHTML = 'Chat';
                 privateChatPartner = '';
             }
-            navigator.notification.beep();
+            if (SOUND) {
+                navigator.notification.beep();
+            }
         });
 
         socket.on('db_messages', function (rows) {
-            $("#chatlog-display-div").html('');
-            $("#chatlog-display-div").append('<br><br><br><br><br><br><br><br><br>' + 
-                '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>' + 
-                '<br><br><br><br><br><br><br>');
+            $("#messages").html('');
+            //$("#messages").append('<br><br><br><br><br><br><br><br><br>' + 
+            //    '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>' + 
+            //    '<br><br><br><br><br><br><br>');
             rows.forEach(function (row) {
                 if (row.sender === 'SERVER') {
-                    $("#chatlog-display-div").append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span>' + '&nbsp<span style="color: #ADEEFF; font-size: 1.1em;">&nbsp&nbsp' + parsed(row.text) + '</span><br>');
+                    $("#messages").append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span>' + '&nbsp<span style="color: #ADEEFF; font-size: 1.1em;">&nbsp&nbsp' + parsed(row.text) + '</span><br>');
                 } else {
-                    $("#chatlog-display-div").append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #fff; font-size: 1.1em;">' + row.sender + ':&nbsp&nbsp' + parsed(row.text) + '</span><br>');
+                    $("#messages").append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #fff; font-size: 1.1em;">' + row.sender + ':&nbsp&nbsp' + parsed(row.text) + '</span><br>');
                 }
-                $("#chatlog-display-div").scrollTop($("#chatlog-display-div").prop("scrollHeight"));
+                $("#messages").scrollTop($("#messages").prop("scrollHeight"));
             });
         });
 
@@ -327,8 +391,9 @@ var username,
             console.log('authorized');
             document.getElementById('splash').style.display = 'none';
             document.getElementById('signin').style.display = 'none';
-            document.getElementById('pasek').style.visibility = 'visible';
-            document.getElementById('mapa').style.display = 'inline-block';
+            document.getElementById('naglowek').style.visibility = 'visible';
+            document.getElementById('mapa').style.display = 'block';
+             document.getElementById('stopka').style.display = 'none';
             $(window).trigger('resize');
             setInterval(function () {
                 socket.emit('who');
@@ -343,7 +408,9 @@ var username,
 
         socket.on('err', function (message) {
             console.log(message);
-            navigator.notification.beep();
+            if (SOUND) {
+                navigator.notification.beep();
+            }
             document.getElementById('err').style.visibility = 'visible';
             document.getElementById('err').innerHTML = message;
         });
@@ -360,11 +427,17 @@ var username,
         socket.on('pm', function (timestamp, user, message) {
             message = parsed(message);
             if (user === privateChatPartner) {
-                $('#pm-display').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #ddd; font-size: 1.1em;">' + user + ':&nbsp&nbsp' + message + '</span><br>');
-                $('#pm-display').scrollTop($('#pm-display').prop('scrollHeight'));
+                $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #666; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                    '<span>' + message + '</span></div><br><br>');
+                $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
+            } else if (user === username){
+                $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #bbb; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                    '<span>' + message + '</span></div><br><br>');
+                $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
+            } else {    
+                $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.1em;">' + sender + ':&nbsp&nbsp' + message + '</span><br>');
+                $('#messages').scrollTop($('#messages').prop('scrollHeight'));
             }
-            $('#chatlog-display-div').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.1em;">' + user + ':&nbsp&nbsp' + message + '</span><br>');
-            $('#chatlog-display-div').scrollTop($('#chatlog-display-div').prop('scrollHeight'));
         });
 
         socket.on('markers', function (markery, room) {
@@ -380,14 +453,13 @@ var username,
             if (privateChatPartner.length > 0) {
                 markery.forEach( function (mark) {
                     if (mark.username === privateChatPartner) {
-                        console.log('private chat partner found in markers');
+                        // private chat partner found in markers
                         privateChatPartnerFound = true;
                     }
                 });
                 if ( privateChatPartnerFound === false) {
-                    console.log('private chat partner not found in markers');
+                    // private chat partner not found in markers
                     markery.push({username: privateChatPartner, pozycja: privateChatPartnerPosition});
-                    console.log(markery);
                 }
             }
             // deleting all markers
@@ -408,13 +480,17 @@ var username,
                 // centering map on our position
                 if (markerTitle === username) {
                     mypos = newLatLng;
-                    if (onMe === false) {
+                    /*if (onMe === false) {
                         map.setCenter(newLatLng);
                         onMe = true;
+                    }*/
+                    if (CENTER_MAP) {
+                        map.setCenter(newLatLng);
                     }
                     ikona = 'images/mymarker.png';
                     if ((lat === 50.061667) && (lng === 19.937222)) {
-                        //alert('You don\'t send your position!');
+                        // it seems that the geolocator does not work 
+                        // alert('You don\'t send your position!');
                     }
                     if (map.getZoom() === 3) {
                         map.setZoom(12);
@@ -444,17 +520,19 @@ var username,
         });
 
         socket.on('db_privateChat', function (rows) {
-            $("#pm-display").html('');
-            $("#pm-display").append('<br><br><br><br><br><br><br><br><br>' +
-                '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>' +
-                '<br><br><br><br><br><br><br>');
+            $("#privateMessages").html('');
             rows.forEach(function (row) {
-            $('#pm-display').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + row.timestamp +
-                    '</span>' + '&nbsp&nbsp&nbsp<span style="color: #fff; margin-left: 2px; font-size: 1.1em;">' + row.sender +
-                    ':&nbsp' + parsed(row.text) + '</span><br>');
+                if (row.sender === privateChatPartner) {
+                    $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #666; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span><br>' + 
+                        '<span>' + parsed(row.text) + '</span></div><br><br>');
+                } else if (row.sender === username) {
+                    $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #bbb; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span><br>' + 
+                        '<span>' + parsed(row.text) + '</span></div><br><br>');
+                }  
+                $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
             });
-            $('#pm-display').scrollTop($('#pm-display').prop('scrollHeight'));
         });
+        
       });
     });
 }(jQuery));

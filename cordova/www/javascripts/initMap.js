@@ -61,4 +61,7 @@ function initMap() {
     var centerMapDiv = document.createElement('div');
     centerMapDiv.innerHTML = '<button id="geo"><i class="fa fa-2x fa-crosshairs"></i></button>';
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerMapDiv);
+    var setSoundDiv = document.createElement('div');
+    setSoundDiv.innerHTML = '<button id="sound"><i class="fa fa-2x fa-volume-up"></i></button>';
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(setSoundDiv);
 } // function initMap

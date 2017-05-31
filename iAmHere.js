@@ -162,6 +162,31 @@ function loadPrivateMessage(socket, sender, receiver) {
     });
 }
 
+function connectedSockets (namespace) {
+    'use strict';
+    var res = [];
+    var ns = io.of(namespace || "/");
+    if (ns) {
+        Object.keys(ns.connected).forEach(function (id) {
+                res.push(ns.connected[id]);
+        });
+    }
+    return res;
+}
+
+function deleteDuplicateSockets (username, id, namespace) {
+    'use strict';
+    var ns = io.of(namespace || "/");
+    if (ns) {
+        Object.keys(ns.connected).forEach(function (client) {
+            if (ns.connected[client].username === username && ns.connected[client].id !== id) {
+                console.log('disconnecting ' + ns.connected[client].username + ', ' + ns.connected[client].id);
+                ns.connected[client].disconnect();
+            }    
+        });
+    }
+}
+
 function findUsersConnected(room, namespace) {
     'use strict';
     var res = [];
@@ -200,10 +225,9 @@ function findUserPosition(user, namespace) {
 function findUsersId(room, namespace) {
     'use strict';
     var res = [];
-    var ns = io.of(namespace || "/");    // domyślna namespace to "/"
+    var ns = io.of(namespace || "/");  //  "/" is the default namespace
 
     if (ns) {
-        //for (var id in ns.connected) {
         Object.keys(ns.connected).forEach(function (id) {
             if (room) {
                 var roomKeys = Object.keys(ns.connected[id].rooms);
@@ -338,6 +362,7 @@ io.on('connection', function (socket) {
                         socket.admin = true;
                         socket.emit('adminAck');
                     }
+                    deleteDuplicateSockets (socket.username, socket.id);
                     socket.emit('updaterooms', rooms, socket.room);
                     socket.broadcast.to(socket.room).emit('chat', timestamp, 'SERVER', socket.username + ' has connected');
                     loadChat(socket, socket.room);
@@ -387,6 +412,7 @@ io.on('connection', function (socket) {
                         socket.admin = true;
                         socket.emit('adminAck');
                     }
+                    deleteDuplicateSockets (socket.username, socket.id);
                     socket.emit('updaterooms', rooms, socket.room);
                     socket.broadcast.to(socket.room).emit('chat', timestamp, 'SERVER', socket.username + ' has connected');
                     loadChat(socket, socket.room);
@@ -441,6 +467,7 @@ io.on('connection', function (socket) {
                     socket.username = username;
                     socket.room = user[0].ah || rooms[0];
                     socket.join(socket.room);
+                    deleteDuplicateSockets (socket.username, socket.id);
                     socket.emit('updaterooms', rooms, socket.room);
                     if (socket.room !== rooms[0]) {
                         rooms.push(socket.room);

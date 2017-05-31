@@ -62,7 +62,7 @@ body {
 }
 
 #pasek {
-    positin: fixed;
+    position: fixed;
     top: 0;
     border-color: #ADEEF9; 
     border-color: #FFF;
@@ -93,6 +93,16 @@ body {
 #geo {
   margin-right: 13px;
   margin-bottom: 10px;
+  border: 1px;
+  border-style: solid;
+  border-color: white;
+  color: #777;
+  background-color: white;
+}
+
+#sound {
+  margin-left: 13px;
+  margin-top: 10px;
   border: 1px;
   border-style: solid;
   border-color: white;
