@@ -9,6 +9,7 @@
     </author>
     <preference name="loadUrlTimeoutValue" value="700000" />
     <preference name="orientation" value="portrait" />
+    <preference name="Fullscreen" value="false" />
     <content src="main.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />

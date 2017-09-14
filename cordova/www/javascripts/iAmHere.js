@@ -20,11 +20,10 @@ var CENTER_MAP = true,
     $(window).on( "load", function () {
         //setting max height of some elements
         $(window).bind('resize', function () {
-            set_chat_height();
+            set_dimensions();
         });
         $(window).trigger('resize');
-        document.getElementById('startApp').style.display = 'inline-block';
-        document.getElementById('ajax-loader').style.display = 'none';
+        
         document.addEventListener('deviceready', function() {
             document.addEventListener("backbutton", onBackKeyDown, false);
             function onBackKeyDown() {
@@ -45,28 +44,56 @@ var CENTER_MAP = true,
 
         }, false);
 
-        function set_chat_height() {
-            var windowHeight = $(window).height();
-            var windowWidth = $(window).width();
-            var splashDiv = document.getElementById('splash');
-            var chatDiv = document.getElementById('messages');
-            var usersDiv = document.getElementById('users');
-            var mapDiv = document.getElementById('mapa');
-            var pmDiv = document.getElementById('privateMessages');
-            document.getElementById('chat').style.height = windowHeight -100 + 'px';
-            document.getElementById('chat').style.width = windowWidth + 'px';
-            document.getElementById('privateChat').style.height = windowHeight - 100 + 'px';
-            document.getElementById('privateChat').style.width = windowWidth + 'px';
-            splashDiv.style.height = windowHeight - 100 + 'px';
-            chatDiv.style.height = windowHeight - 130 + 'px';
-            chatDiv.scrollTop = chatDiv.scrollHeight;
-            usersDiv.style.height = windowHeight - 130 + 'px';
-            users.scrollTop = usersDiv.scrollHeight;
-            pmDiv.style.height = windowHeight - 130 + 'px';
-            pmDiv.scrollTop = pmDiv.scrollHeight;
-            mapDiv.style.height = windowHeight - 50 + 'px';
-            mapDiv.style.width = windowWidth + 'px';
-            google.maps.event.trigger(map,'resize');
+        function set_dimensions() {
+            var windowHeight = $(window).height(),
+                windowWidth = $(window).width(),
+                $chat = document.getElementById('chat'),
+                $messages = document.getElementById('messages'),
+                $users = document.getElementById('users'),
+                $chatForm = document.getElementById('chatForm'),
+                $mapa = document.getElementById('mapa'),
+                $privateChat = document.getElementById('privateChat'),
+                $privateMessages = document.getElementById('privateMessages'),
+                $privateChatForm = document.getElementById('privateChatForm'),
+                $stopka = document.getElementById('stopka'),
+                $signin = document.getElementById('signin'),
+                $startApp = document.getElementById('startApp'),
+                $splashText = document.getElementById('splashText'),
+                $username = document.getElementById('username'),
+                $register = document.getElementById('register'),
+                $login = document.getElementById('login'),
+                $password = document.getElementById('password');
+
+                // set the height of some elements as the fraction of the window height
+                $username.style.height = windowHeight/15 + 'px';
+                $password.style.height = windowHeight/15 + 'px';
+                $login.style.height = windowHeight/15 + 'px';
+                $register.style.height = windowHeight/15 + 'px';
+                $splashText.style.fontSize = windowHeight/8 + 'px';
+                $startApp.style.height = windowHeight/12 + 'px';
+                $startApp.style.fontSize = windowHeight/20 + 'px';
+                
+                // set the dimensions of some elements as the difference between
+                // the window height and the fixed height of some other elements 
+                $chat.style.height = windowHeight - 101 + 'px';
+                $chat.style.width = windowWidth + 'px';
+                $privateChat.style.height = windowHeight - 101 + 'px';
+                $privateChat.style.width = windowWidth + 'px';
+                $stopka.style.width = windowWidth + 'px';
+                $chatForm.style.width = windowWidth + 'px';
+                $privateChatForm.style.width = windowWidth + 'px';
+                $signin.style.height = windowHeight - 50 + 'px';
+                $signin.style.width = windowWidth + 'px';
+                $messages.style.height = windowHeight - 140 + 'px';
+                $messages.scrollTop = $messages.scrollHeight;
+                $users.style.height = windowHeight - 140 + 'px';
+                $users.scrollTop = $users.scrollHeight;
+                $privateMessages.style.height = windowHeight - 135 + 'px';
+                $privateMessages.style.width = windowWidth - 5 + 'px';
+                $privateMessages.scrollTop = $privateMessages.scrollHeight;
+                $mapa.style.height = windowHeight - 50 + 'px';
+                $mapa.style.width = windowWidth + 'px';
+                google.maps.event.trigger(map,'resize');
         }
 
         document.getElementById('privateChatbutton').addEventListener('click', function () {
@@ -92,9 +119,9 @@ var CENTER_MAP = true,
             document.getElementById('chatbutton').style.display = 'none';
             document.getElementById('mapbutton').style.display = 'inline-block';
             // body divs
-            // body divs
             document.getElementById('stopka').style.display = 'none';
             document.getElementById('chatForm').style.display = 'block';
+            document.getElementById('planetaform').style.display = 'none';
             document.getElementById('privateChatForm').style.display = 'none';        
             document.getElementById('chat').style.display = 'block';
             document.getElementById('mapa').style.display = 'none';
@@ -119,6 +146,10 @@ var CENTER_MAP = true,
             $(window).trigger('resize');
         });
 
+        document.getElementById('splashText').innerHTML = 'I<br>am<br>here';
+        document.getElementById('stopka').style.display = 'inline-block';
+        document.getElementById('ajax-loader').style.display = 'none';
+        document.getElementById('startApp').style.display = 'inline-block';
         document.getElementById('startApp').addEventListener('click', function () {
 
             // loading socket.io
@@ -263,6 +294,7 @@ var CENTER_MAP = true,
                     document.getElementById('privateChatForm').style.display = 'none';
                 } else {
                     document.getElementById('splash').style.display = 'none';
+                    document.getElementById('stopka').style.display = 'none';
                     document.getElementById('signin').style.display = 'block';
                 }
             }, 3000);
@@ -300,10 +332,10 @@ var CENTER_MAP = true,
             $('#users').html('');
             users.forEach(function (user) {
                 if (user === socket.username) {
-                    $('#users').append('<a href="#" style="color: yellow;" class="markerLink" who="' + user + 
+                    $('#users').append('<a href="#" style="color: #000; font-size: 1.0em; font-weight: bold;" class="markerLink" who="' + user + 
                         '">' + user + '</a><br>');
                 } else {
-                    $('#users').append('<a href="#" class="markerLink" who="' + user + 
+                    $('#users').append('<a href="#" style="font-size: 1.0em;" class="markerLink" who="' + user + 
                         '">' + user + '</a><br>');
                 }
             });
@@ -313,7 +345,7 @@ var CENTER_MAP = true,
             grupa = current_room;   //grupa may not be necessary at all
             socket.room = current_room;
             document.getElementById('planetaform').style.display = 'none'; 
-            document.getElementById('planeta').innerHTML = 'planet: <span style="color: yellow;">' +
+            document.getElementById('planeta').innerHTML = 'planet: <span style="color: #6b8e9c; font-weight: bold;">' +
                     current_room + '</span>';
             $('#roomList').html('');
             rooms.forEach(function (value) {
@@ -324,9 +356,9 @@ var CENTER_MAP = true,
         socket.on('chat', function (timestamp, user, message) {
             message = parsed(message);
             if (user === 'SERVER') {
-                $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp<span style="color: #ADEEFF; font-size: 1.1em;">&nbsp&nbsp' + message + '</span><br>');
+                $('#messages').append('<span style="color: #777; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '<span style="color: #6b8e9c; font-size: 1.0em;">&nbsp' + message + '</span><br>');
             } else {
-                $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #fff; font-size: 1.1em;">' + user + ':&nbsp&nbsp' + message + '</span><br>');
+                $('#messages').append('<span style="color: #777; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp<span style="color: #000; font-size: 1.0em; font-weight: bold;">' + user + ':</span><span>&nbsp' + message + '</span><br>');
             }
             $('#messages').scrollTop($('#messages').prop('scrollHeight'));
             if (SOUND) {
@@ -337,15 +369,15 @@ var CENTER_MAP = true,
         socket.on('privateChat', function (timestamp, sender, receiver, message) {
             message = parsed(message);
             if (sender === privateChatPartner) {
-                $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #666; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #ccc; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
                     '<span>' + message + '</span></div><br><br>');
                 $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
             } else if (receiver === privateChatPartner){
-                $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #bbb; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #333; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
                     '<span>' + message + '</span></div><br><br>');
                 $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
             } else {    
-                $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.1em;">' + sender + ':&nbsp&nbsp' + message + '</span><br>');
+                $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.0em; font-weight: bold;">' + sender + ':</span><span>&nbsp&nbsp' + message + '</span><br>');
                 $('#messages').scrollTop($('#messages').prop('scrollHeight'));
             }
             if (SOUND) {
@@ -357,7 +389,7 @@ var CENTER_MAP = true,
             privateChat = true;
             $('#privateMessages').html('');
             if (status !== ' not found') {
-                document.getElementById('activeUser').innerHTML = 'Chat with <span style="color: yellow;">' +
+                document.getElementById('activeUser').innerHTML = 'Chat with <span style="color:#6b8e9c; font-weight: bold;">' +
                     privateUser + '</span>';
                 privateChatPartner = privateUser;
             } else {
@@ -376,9 +408,9 @@ var CENTER_MAP = true,
             //    '<br><br><br><br><br><br><br>');
             rows.forEach(function (row) {
                 if (row.sender === 'SERVER') {
-                    $("#messages").append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span>' + '&nbsp<span style="color: #ADEEFF; font-size: 1.1em;">&nbsp&nbsp' + parsed(row.text) + '</span><br>');
+                    $("#messages").append('<span style="color: #777; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span>' + '&nbsp<span style="color: #6b8e9c; font-size: 1.0em;">&nbsp' + parsed(row.text) + '</span><br>');
                 } else {
-                    $("#messages").append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #fff; font-size: 1.1em;">' + row.sender + ':&nbsp&nbsp' + parsed(row.text) + '</span><br>');
+                    $("#messages").append('<span style="color: #777; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span>' + '&nbsp<span style="color: #000; font-size: 1.0em; font-weight: bold;">' + row.sender + ':</span><span>&nbsp' + parsed(row.text) + '</span><br>');
                 }
                 $("#messages").scrollTop($("#messages").prop("scrollHeight"));
             });
@@ -391,9 +423,9 @@ var CENTER_MAP = true,
             console.log('authorized');
             document.getElementById('splash').style.display = 'none';
             document.getElementById('signin').style.display = 'none';
-            document.getElementById('naglowek').style.visibility = 'visible';
+            document.getElementById('naglowek').style.display = 'block';
             document.getElementById('mapa').style.display = 'block';
-             document.getElementById('stopka').style.display = 'none';
+            document.getElementById('stopka').style.display = 'none';
             $(window).trigger('resize');
             setInterval(function () {
                 socket.emit('who');
@@ -403,7 +435,7 @@ var CENTER_MAP = true,
         socket.on('regAck', function () {
             console.log('registered');
             document.getElementById('err').style.visibility = 'hidden';
-            document.getElementById('authInfo').innerHTML = 'You are registered<br>please log in';
+            document.getElementById('authInfo').innerHTML = 'You are registered<br>please sign in';
         });
 
         socket.on('err', function (message) {
@@ -427,15 +459,15 @@ var CENTER_MAP = true,
         socket.on('pm', function (timestamp, user, message) {
             message = parsed(message);
             if (user === privateChatPartner) {
-                $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #666; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #ccc; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
                     '<span>' + message + '</span></div><br><br>');
                 $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
             } else if (user === username){
-                $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #bbb; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #333; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
                     '<span>' + message + '</span></div><br><br>');
                 $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
             } else {    
-                $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.1em;">' + sender + ':&nbsp&nbsp' + message + '</span><br>');
+                $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.2em;">' + sender + ':&nbsp&nbsp' + message + '</span><br>');
                 $('#messages').scrollTop($('#messages').prop('scrollHeight'));
             }
         });
@@ -523,10 +555,10 @@ var CENTER_MAP = true,
             $("#privateMessages").html('');
             rows.forEach(function (row) {
                 if (row.sender === privateChatPartner) {
-                    $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #666; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span><br>' + 
+                    $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #ccc; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span><br>' + 
                         '<span>' + parsed(row.text) + '</span></div><br><br>');
                 } else if (row.sender === username) {
-                    $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #bbb; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span><br>' + 
+                    $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #333; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span><br>' + 
                         '<span>' + parsed(row.text) + '</span></div><br><br>');
                 }  
                 $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));

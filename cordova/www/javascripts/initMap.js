@@ -1,16 +1,6 @@
-var zum = 3;
+var zum = 12;
 var map;
-var cordovaPos = {lat: 50.061667, lng: 19.937222};
-
-navigator.geolocation.watchPosition(
-    function (position) {
-        cordovaPos = {lat: position.coords.latitude, lng: position.coords.longitude};
-    },
-    function (error) {
-        navigator.notification.alert('Waiting for GPS...');
-    },
-    { maximumAge: 15000, timeout: 20000, enableHighAccuracy: true }
-);
+var initialPos = {lat: 50.061667, lng: 19.937222};
 
 function initMap() {
     // Create an array of styles.
@@ -42,8 +32,8 @@ function initMap() {
     // as well as the name to be displayed on the map type control.
     styledMap = new google.maps.StyledMapType(styles, {name: 'Styled Map'});
 
-    map = new google.maps.Map(document.getElementById('mapa'), {
-        center: cordovaPos,
+    var map = new google.maps.Map(document.getElementById('mapa'), {
+        center: initialPos,
         zoom: zum,
         streetViewControl: false,
         zoomControl: false,

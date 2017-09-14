@@ -8,48 +8,49 @@
     <link rel="stylesheet" href="stylesheets/styles.css">
     <script src="javascripts/socket.io.js"></script>
     <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/jquery.mobile.min.js"></script>
   </head>
   <body>
-    
-    <div id="naglowek" style="visibility: hidden;">
+
+    <div id="naglowek" style="display: none;">
       <div id="tytul">iAmHere</div>
       <div id="myButtons">
             <button id="mapbutton" style="display: none"><i class="fa fa-globe fa-lg"></i></button>
             <button id="privateChatbutton" style="display: none"><i class="fa fa-user fa-lg"></i></button>
             <button id="chatbutton"><i class="fa fa-commenting fa-lg"></i></button>
           </div>
-    </div> 
-    
+    </div>
+
     <div id="splash">
-        <h1 id="splashText">I<br>Am<br>Here</h1><br><br>
-        <div id="ajax-loader" class="loader"></div>
+        <h3 id="splashText"></h3>
+        <div id="ajax-loader">loading...</div>
+        <br><br><br><br>
         <button id="startApp" style="display: none" type="button">Start</button>
         <br><br>
-    </div> 
-    
+    </div>
+
     <div id="signin" style="display: none">
-        <h1 id="headline">iAmHere 2.31</h1>
         <form>
-            <br><br>
             <div id="authInfo">Please sign in</div>
+            <br>
             <div id="authForm">
-                <input id="username" class="signinInput" type="text" maxlength="10" placeholder="username" required autofocus>
-                <input id="password" class="signinInput" type="password" maxlength="20" placeholder="password" required>
+                <input id="username" class="signinInput" type="text" maxlength="10" placeholder="username" required autofocus><br>
+                <input id="password" class="signinInput" type="password" maxlength="20" placeholder="password" required><br><br>
                 <button id="login" class="signinButton" type="button">Sign in</button>
                 <button id="register" class="signinButton" type="button">Register</button><br>
                 <p id="err"></p><br>
             </div>
         </form>
     </div>
-    
+
     <div id="mapa" style="display: none">Mapa</div>
-    
+
     <div id="chat" style="display: none;">
         <div id="activeRoomWrapper">
             <div id="activeRoom">
                 <div id="planeta"></div>
-                <form id="planetaform" action="" style="display: none; margin-left: 20px;">
-                    <input id="planetText" type="text" autocomplete="off" maxlength="20" spellcheck="false" placeholder="Change the planet...">    
+                <form id="planetaform" action="" style="display: none; margin-left: 2px;">
+                    <input id="planetText" type="text" autocomplete="off" maxlength="20" spellcheck="false" placeholder="Change the planet...">
                 </form>
             </div>
         </div>
@@ -60,39 +61,39 @@
             <span style="margin: 2px;"></span>
         </div>
     </div>
-    
+
     <div id="privateChat" style="display: none">
         <div id="privateChatWrapper">
             <div id="activeUser"></div>
-        </div>    
+        </div>
         <div id="privateMessages"></div>
     </div>
-    
-    <div id="stopka">
+
+    <div id="stopka" style="display: none">
         <div id="footer">(c) mkrok 2017</div>
     </div>
-    
+
     <div id="privateChatForm" style="display: none">
         <form id="privatechatform" action="">
             <div id="privateChatFormWrapper">
                 <input id="messageText" type="text" autocomplete="off" maxlength="255" spellcheck="false" placeholder="Type a message">
                 <input id="messageButton" type="submit" value="Send" style="display: none;">
             </div>
-        </form>    
+        </form>
     </div>
-    
+
     <div id="chatForm" style="display: none">
         <form id="chatform" action="">
             <div id="chatFormWrapper">
                 <input id="chatText" type="text" autocomplete="off" maxlength="255" spellcheck="false" placeholder="Type a message">
                 <input id="chatButton" type="submit" value="Send" style="display: none">
             </div>
-        </form>    
+        </form>
     </div>
-    
+
     <script src="cordova.js"></script>
     <script src="javascripts/initMap.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYtFG6gg-yuuYqav4XKq7d5P2I1jQIEE0&amp;callback=initMap"></script>    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYtFG6gg-yuuYqav4XKq7d5P2I1jQIEE0&amp;callback=initMap"></script>
     <script src="javascripts/twaEmojiParser.js"></script>
     <script src="javascripts/iAmHere.js"></script>
   </body>

@@ -98,10 +98,14 @@ function decrypt(text) {
 function dateFormat(date) {
     'use strict';
     var hours = date.getHours();
+    hours = hours < 10 ? '0' + hours : hours;
     var minutes = date.getMinutes();
     minutes = minutes < 10 ? '0' + minutes : minutes;
-    var strTime = hours + ':' + minutes;
-    return date.getMonth() + 1 + "/" + date.getDate() + " " + strTime;
+    var month = date.getMonth() + 1;
+    month = month < 10 ? '0' + month : month;
+    var day = date.getDate();
+    day = day < 10 ? '0' + day : day;
+    return month + "/" + day + " " + hours + ':' + minutes;
 }
 
 function storeChat(timestamp, room, user, message) {

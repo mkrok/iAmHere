@@ -10,7 +10,6 @@
     "express": "~4.13.1",
     "morgan": "^1.7.0",
     "mysql": "^2.12.0",
-    "nik": "file:///home/becalm/node/nik",
     "pug": "^2.0.0-beta6",
     "sanitize-html": "^1.13.0",
     "socket.io": "^1.4.6"

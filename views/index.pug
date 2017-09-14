@@ -55,7 +55,7 @@ block content
     br
     .row
         .col-xs-12
-            #activeRoomWrapper                
+            #activeRoomWrapper
                 p#activeRoom
 
   .container#privateChat(style='display: none;')
@@ -71,9 +71,9 @@ block content
       .row
           .col-xs-12
               br
-              #privateChatWrapper 
+              #privateChatWrapper
                   p#activeUsers Private chat
-      
+
 
   //-- Modal --
   #infoModal.modal.fade(role="dialog")
@@ -89,10 +89,6 @@ block content
   audio#errorSound(src = "/sounds/error.mp3" preload="auto")
   audio#chatSound(src = "/sounds/chat.mp3" preload="auto")
   script(src="/javascripts/initMap.js")
-  script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYtFG6gg-yuuYqav4XKq7d5P2I1jQIEE0&callback=initMap")
+  script(src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY=initMap")
   script(src='/javascripts/twaEmojiParser.js')
   script(src='/javascripts/iAH.js')
-
-
-
-
