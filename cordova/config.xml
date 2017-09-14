@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="pl.mkrok.iamhere" version="2.2.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>iAmHere</name>
+<widget id="pl.mkrok.iamhere2" version="2.4.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>iAmHere2</name>
     <description>
         geolocation + chat.
     </description>
-    <author email="miroslaw.krokv@gmail.com">
+    <author email="miroslaw.krok@gmail.com">
         mkrok
     </author>
     <preference name="loadUrlTimeoutValue" value="700000" />

@@ -23,7 +23,7 @@ var CENTER_MAP = true,
             set_dimensions();
         });
         $(window).trigger('resize');
-        
+
         document.addEventListener('deviceready', function() {
             document.addEventListener("backbutton", onBackKeyDown, false);
             function onBackKeyDown() {
@@ -72,9 +72,9 @@ var CENTER_MAP = true,
                 $splashText.style.fontSize = windowHeight/8 + 'px';
                 $startApp.style.height = windowHeight/12 + 'px';
                 $startApp.style.fontSize = windowHeight/20 + 'px';
-                
+
                 // set the dimensions of some elements as the difference between
-                // the window height and the fixed height of some other elements 
+                // the window height and the fixed height of some other elements
                 $chat.style.height = windowHeight - 101 + 'px';
                 $chat.style.width = windowWidth + 'px';
                 $privateChat.style.height = windowHeight - 101 + 'px';
@@ -104,7 +104,7 @@ var CENTER_MAP = true,
             // body divs
             document.getElementById('stopka').style.display = 'none';
             document.getElementById('chatForm').style.display = 'none';
-            document.getElementById('privateChatForm').style.display = 'block';        
+            document.getElementById('privateChatForm').style.display = 'block';
             document.getElementById('chat').style.display = 'none';
             document.getElementById('mapa').style.display = 'none';
             document.getElementById('privateChat').style.display = 'block';
@@ -122,7 +122,7 @@ var CENTER_MAP = true,
             document.getElementById('stopka').style.display = 'none';
             document.getElementById('chatForm').style.display = 'block';
             document.getElementById('planetaform').style.display = 'none';
-            document.getElementById('privateChatForm').style.display = 'none';        
+            document.getElementById('privateChatForm').style.display = 'none';
             document.getElementById('chat').style.display = 'block';
             document.getElementById('mapa').style.display = 'none';
             document.getElementById('privateChat').style.display = 'none';
@@ -139,7 +139,7 @@ var CENTER_MAP = true,
             // body divs
             document.getElementById('stopka').style.display = 'none';
             document.getElementById('chatForm').style.display = 'none';
-            document.getElementById('privateChatForm').style.display = 'none';        
+            document.getElementById('privateChatForm').style.display = 'none';
             document.getElementById('chat').style.display = 'none';
             document.getElementById('mapa').style.display = 'block';
             document.getElementById('privateChat').style.display = 'none';
@@ -153,23 +153,23 @@ var CENTER_MAP = true,
         document.getElementById('startApp').addEventListener('click', function () {
 
             // loading socket.io
-            var socket = io('http://185.3.114.84');
+            var socket = io('http://mk12ok.ct8.pl/');
             $('#mapa').on('click', 'a.markerLink', sendPrivateMessage);
             $('#chat').on('click', 'a.markerLink', sendPrivateMessage);
-            
+
             document.getElementById('planeta').addEventListener('click', function () {
-                document.getElementById('planetaform').style.display = 'inline-block';  
-            });   
-            
+                document.getElementById('planetaform').style.display = 'inline-block';
+            });
+
             document.getElementById('tytul').addEventListener('click', function () {
                 navigator.notification.alert(
                     'miroslaw.krok@gmail.com',  // message
                      function () {},         // callback
                      'iAmHere 2.31',            // title
                      'OK'                  // buttonName
-                );    
+                );
             });
-                
+
             document.getElementById('geo').addEventListener('click', function () {
                 CENTER_MAP = !CENTER_MAP;
                 if (CENTER_MAP) {
@@ -225,13 +225,13 @@ var CENTER_MAP = true,
         $('#planetaform').submit(function (e) {
             e.preventDefault();
             var newPlanet = $('#planetText').val();
-            document.getElementById('planetaform').style.display = 'none'; 
+            document.getElementById('planetaform').style.display = 'none';
             if (newPlanet.trim().length !== 0) {
                 socket.emit('switchRoom', newPlanet);
                 $('#planetText').focus().val('');
             }
         });
-        
+
         $('#chatform').submit(function (e) {
             e.preventDefault();
             var message = {
@@ -277,7 +277,7 @@ var CENTER_MAP = true,
             if (window.localStorage) {
                 authToken = window.localStorage.getItem('iah');
             } else if (window.sessionStorage) {
-                authToken = window.sessionStorage.getItem('iah');  
+                authToken = window.sessionStorage.getItem('iah');
             }
             if (authToken) {
                 socket.emit('authToken', authToken);
@@ -315,7 +315,7 @@ var CENTER_MAP = true,
         });
 
         //socket.on('cookie', function (cookie) {
-            //document.cookie = cookie;   
+            //document.cookie = cookie;
         //});
 
         socket.on('setPrivateUserPosition', function (pozycja) {
@@ -332,10 +332,10 @@ var CENTER_MAP = true,
             $('#users').html('');
             users.forEach(function (user) {
                 if (user === socket.username) {
-                    $('#users').append('<a href="#" style="color: #000; font-size: 1.0em; font-weight: bold;" class="markerLink" who="' + user + 
+                    $('#users').append('<a href="#" style="color: #000; font-size: 1.0em; font-weight: bold;" class="markerLink" who="' + user +
                         '">' + user + '</a><br>');
                 } else {
-                    $('#users').append('<a href="#" style="font-size: 1.0em;" class="markerLink" who="' + user + 
+                    $('#users').append('<a href="#" style="font-size: 1.0em;" class="markerLink" who="' + user +
                         '">' + user + '</a><br>');
                 }
             });
@@ -344,7 +344,7 @@ var CENTER_MAP = true,
         socket.on('updaterooms', function (rooms, current_room) {
             grupa = current_room;   //grupa may not be necessary at all
             socket.room = current_room;
-            document.getElementById('planetaform').style.display = 'none'; 
+            document.getElementById('planetaform').style.display = 'none';
             document.getElementById('planeta').innerHTML = 'planet: <span style="color: #6b8e9c; font-weight: bold;">' +
                     current_room + '</span>';
             $('#roomList').html('');
@@ -369,14 +369,14 @@ var CENTER_MAP = true,
         socket.on('privateChat', function (timestamp, sender, receiver, message) {
             message = parsed(message);
             if (sender === privateChatPartner) {
-                $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #ccc; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #ccc; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' +
                     '<span>' + message + '</span></div><br><br>');
                 $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
             } else if (receiver === privateChatPartner){
-                $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #333; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #333; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' +
                     '<span>' + message + '</span></div><br><br>');
                 $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
-            } else {    
+            } else {
                 $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.0em; font-weight: bold;">' + sender + ':</span><span>&nbsp&nbsp' + message + '</span><br>');
                 $('#messages').scrollTop($('#messages').prop('scrollHeight'));
             }
@@ -403,8 +403,8 @@ var CENTER_MAP = true,
 
         socket.on('db_messages', function (rows) {
             $("#messages").html('');
-            //$("#messages").append('<br><br><br><br><br><br><br><br><br>' + 
-            //    '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>' + 
+            //$("#messages").append('<br><br><br><br><br><br><br><br><br>' +
+            //    '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>' +
             //    '<br><br><br><br><br><br><br>');
             rows.forEach(function (row) {
                 if (row.sender === 'SERVER') {
@@ -459,14 +459,14 @@ var CENTER_MAP = true,
         socket.on('pm', function (timestamp, user, message) {
             message = parsed(message);
             if (user === privateChatPartner) {
-                $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #ccc; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #ccc; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' +
                     '<span>' + message + '</span></div><br><br>');
                 $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
             } else if (user === username){
-                $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #333; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' + 
+                $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #333; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span><br>' +
                     '<span>' + message + '</span></div><br><br>');
                 $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
-            } else {    
+            } else {
                 $('#messages').append('<span style="color: #aaa; margin-left: 2px; font-size: 0.8em;">' + timestamp + '</span>' + '&nbsp&nbsp&nbsp<span style="color: #55ff55; font-size: 1.2em;">' + sender + ':&nbsp&nbsp' + message + '</span><br>');
                 $('#messages').scrollTop($('#messages').prop('scrollHeight'));
             }
@@ -521,7 +521,7 @@ var CENTER_MAP = true,
                     }
                     ikona = 'images/mymarker.png';
                     if ((lat === 50.061667) && (lng === 19.937222)) {
-                        // it seems that the geolocator does not work 
+                        // it seems that the geolocator does not work
                         // alert('You don\'t send your position!');
                     }
                     if (map.getZoom() === 3) {
@@ -555,16 +555,16 @@ var CENTER_MAP = true,
             $("#privateMessages").html('');
             rows.forEach(function (row) {
                 if (row.sender === privateChatPartner) {
-                    $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #ccc; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span><br>' + 
+                    $('#privateMessages').append('<div class="leftPrivateMessage"><span style="color: #ccc; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span><br>' +
                         '<span>' + parsed(row.text) + '</span></div><br><br>');
                 } else if (row.sender === username) {
-                    $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #333; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span><br>' + 
+                    $('#privateMessages').append('<div class="rightPrivateMessage"><span style="color: #333; margin-left: 2px; font-size: 0.8em;">' + row.timestamp + '</span><br>' +
                         '<span>' + parsed(row.text) + '</span></div><br><br>');
-                }  
+                }
                 $('#privateMessages').scrollTop($('#privateMessages').prop('scrollHeight'));
             });
         });
-        
+
       });
     });
 }(jQuery));

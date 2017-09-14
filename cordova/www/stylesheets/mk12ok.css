@@ -1,6 +1,6 @@
 body {
-    background-color: #246; 
-    font-family: sans-serif; 
+    background-color: #246;
+    font-family: sans-serif;
     color: #FFF;
     text-align: center;
     padding-top: 50px;
@@ -18,22 +18,6 @@ body {
 #myButtons {
     display: inline-block;
     float: right;
-}
-
-#capturePhoto {
-    margin-top: 10px;
-    color: #fff;
-    background-color: #246;
-}
-
-#capture {
-    border: 1px;
-    border-style: solid;
-    border-color: #ADEEF9;
-    border-radius: 5px;
-    margin-left: 5px;
-    margin-top: 5px;
-    padding: 2px;
 }
 
 .modal-content  {
@@ -64,7 +48,7 @@ body {
 #pasek {
     position: fixed;
     top: 0;
-    border-color: #ADEEF9; 
+    border-color: #ADEEF9;
     border-color: #FFF;
     background-color: #246;
 }
@@ -223,7 +207,7 @@ body {
     background-color: #246;
     width: 100%;
     height: 1000px;
-    border: 1px; 
+    border: 1px;
     border-style: solid;
     border-color: #ADEEF9;
     border-radius: 5px;
@@ -296,7 +280,7 @@ body {
     font-size: 1.2em;
     margin-left: 3px;
     margin-top: 0px;
-    border: 1px; 
+    border: 1px;
     border-style: solid;
     border-radius: 5px;
     background-color: #5bc0de;
