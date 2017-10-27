@@ -386,9 +386,7 @@ a {
 #signin {
     color: white;
     text-align: center;
-    position: fixed;
-    left: 35%;
-    top: 30%;
+    margin: auto;
 }
 
 #signin>h3 {

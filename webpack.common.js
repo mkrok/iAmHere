@@ -1,7 +1,6 @@
 module.exports = {
     entry: {
-        app: './javascripts/script.js',
-        initMap: './javascripts/mapa.js'
+        app: './javascripts/script.js'
     },
     output: {
         path: __dirname + '/dist',
