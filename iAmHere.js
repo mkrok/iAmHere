@@ -53,7 +53,7 @@ db.on('error', function (err) {
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname)));
 app.use(morgan('dev'));
 app.get('/', function (req, res) {
     'use strict';
@@ -186,7 +186,7 @@ function deleteDuplicateSockets (username, id, namespace) {
             if (ns.connected[client].username === username && ns.connected[client].id !== id) {
                 console.log('disconnecting ' + ns.connected[client].username + ', ' + ns.connected[client].id);
                 ns.connected[client].disconnect();
-            }    
+            }
         });
     }
 }

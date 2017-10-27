@@ -1,0 +1,494 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
+/* my styles */
+html {
+    background-color: black;
+    background-image: url(../images/satcom-dark.jpg);
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+}
+
+body {
+    color: white;
+    /*background-color: black;
+    background-image: url(../images/b1.png);*/
+    margin: 0;
+    padding: 0;
+    padding-top: 100px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-align: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+#naglowek, #signin, #startApp, #mapa, #chat, #privateChat,
+#stopka, #privateChatForm, #chatForm {
+    display: none;
+}
+
+#wrapper {
+    margin: auto;
+    width: 100%;
+    min-width: 800px;
+}
+
+#naglowek {
+    /*background-color: #268;*/
+    border-color: darkgrey;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+    border-bottom-style: solid;
+    border: 1px;
+}
+
+#naglowek_content {
+    max-width: 1600px;
+    margin: auto;
+}
+
+#footer, #privateChatFormWrapper, #chatFormWrapper {
+    display: inline;
+    line-height: 80px;
+    height: 80px;
+}
+
+#tytul {
+    display: inline;
+    line-height: 100px;
+    height: 100px;
+    color: powderblue;
+    font-size: 3em;
+    margin: auto;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+#titleIcon {
+    margin-right: 0.1em;
+}
+
+#myButtons {
+  margin-right: 30px;
+  display: inline-block;
+  line-height: 100px;
+  height: 100px;
+  float: right;
+}
+
+#mapbutton, #privateChatbutton, #chatbutton {
+    color: #f2756a;
+    background-color: #122239;
+    border: 1px solid #122239;
+    font-size: 1.9em;
+    vertical-align: middle;
+    margin: 0 auto;
+    margin-right: 5px;
+    width: 2em;
+}
+
+#chatForm, #privateChatForm {
+    /*background-color: black;*/
+    padding: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 80px;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+    border-top-style: solid !important;
+    border: 1px;
+}
+
+#stopka {
+    color: darkgrey;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+@media screen and (min-width: 1024px){
+    #splashText {
+        margin-top: 100px;
+        font-size: 15em;
+        margin-bottom: 50px;
+    }
+}
+
+#footer {
+    text-align: center;
+}
+
+#mapa, #privateChat, #chat {
+    position: relative;
+    float: left;
+    border-color: darkgrey;
+    /*background-color: black;*/
+    height: 1000px;
+    margin: auto;
+    margin-top: 5px;
+    width: 33%;
+    max-width: 1600px;
+    border: 1px;
+    border-style: solid;
+    text-align: left;
+}
+
+#chat div {
+  /*float: left;
+  clear: none;*/
+}
+
+#activeRoomWrapper, #privateChatWrapper {
+    /*background-color: black;*/
+    border-color: darkgrey;
+    color: white;
+    width: 100%;
+    height: 30px;
+    border: 1px;
+    border-bottom-style: solid;
+    border-top-style: solid;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+#planeta {
+    color: white;
+    display: inline-block;
+}
+
+#activeRoom, #activeUser {
+    margin: auto;
+    clear: left;
+    line-height: 30px;
+    height: 30px;
+    margin-left: 2px;
+    text-align: center;
+}
+
+#users {
+    float: left;
+    border-color: darkgrey;
+    color: white;
+    padding-top: 8px;
+    width: 25%;
+    height: 100%;
+    border: 1px;
+    border-right-style: solid;
+    /*border-bottom-style: solid;*/
+    overflow-y: auto;
+}
+
+#users > ul {
+    list-style-type: none;
+}
+
+#users > ul > li {
+    color: lightgrey;
+    margin-bottom: 0.5em;
+    margin-left: 0.5em;
+    font-size: 1.2em;
+}
+
+#messages {
+    float: left;
+    color: #aaa;
+    padding-top: 8px;
+    width: 72%;
+    height: 100%;
+    margin-left: 2px;
+    overflow-y: auto;
+    font-size: 0.8em;
+    border-color: darkgrey;
+    border: 0px;
+    border-bottom-style: solid;
+}
+
+.message {
+    margin-bottom: 0.7em;
+}
+
+.timestamp {
+    margin-right: 0.5em;
+}
+
+#messageBody {
+    font-size: 1.6em;
+}
+
+#partner {
+    color: #f2756a;
+    margin-left: 1em;
+}
+
+#privateMessages {
+    color: #aaa;
+    max-width: 1600px;
+    margin:0 auto;
+    padding-top: 2px;
+    width: 100%;
+    height: 100%;
+    font-size: 0.8em;
+    overflow-y: auto;
+}
+
+#messageText, #chatText {
+    color: darkgrey;
+    /*background-color: #173a48;*/
+    background-color: black;
+    border-color: darkgrey;
+    padding: 2px;
+    width: 90%;
+    height: 90%;
+    font-size: 1.1em;
+    max-width: 1200px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 3px;
+}
+
+#planetName {
+    margin-left: 0.5em;
+    color: #f2756a;
+}
+
+#planetaForm {
+    display: inline-block;
+}
+
+#planetText {
+    color: darkgrey;
+    background-color: #122239;
+    border-color: darkgrey;
+    border: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    margin-left: 0.5em;
+    font-size: 1.1em;
+    width: 4em;
+    margin-top: 1px;
+}
+
+::-webkit-input-placeholder {
+    color: darkgrey;
+    font-size: 0.8em !important;
+    padding-left: 0.2em;
+}
+
+#messageButton, #chatButton {
+    color: white;
+    background-color: #a22;
+    border-color: #333;
+    width: 20%;
+    max-width: 100px;
+    font-size: 1em;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+.leftPrivateMessage {
+    color: #ddd;
+    background-color: #08283d;
+    border-color: #5f7077;
+    font-size: 1em;
+    margin: 5px;
+    margin-left: 0.5em;
+    padding: 5px;
+    padding-left: 0.5em;
+    float: left;
+    width: 50%;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+.rightPrivateMessage {
+    /*color: #bbb;*/
+    color: black;
+    background-color: lightcyan;
+    border-color: #5f7077;
+    font-size: 1em;
+    margin: 5px;
+    margin-right: 0.5em;
+    padding: 5px;
+    padding-left: 0.5em;
+    float: right;
+    width: 50%;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+#signin {
+    color: white;
+    text-align: center;
+    position: fixed;
+    left: 35%;
+    top: 30%;
+}
+
+#signin>h3 {
+    color: #6b8e9c;
+}
+
+#authInfo {
+    font-size: 3em;
+    margin-bottom: 1em;
+}
+
+#splashText {
+    color: white;
+    font-size: 10em;
+    margin: 0;
+}
+
+#startApp {
+    color: darkgrey;
+    background-color: black;
+    border-color: darkgrey;
+    max-width: 300px;
+    width: 40%;
+    padding: 2px;
+    border: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    font-size: 8em;
+}
+
+#geo {
+    color: #777;
+    background-color: white;
+    border-color: darkgrey;
+    margin-left: 5px;
+    margin-top: 5px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 4px;
+}
+
+#sound {
+    color: #777;
+    background-color: white;
+    border-color: darkgrey;
+    margin-left: 5px;
+    margin-top: 5px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 4px;
+}
+
+#ajax-loader {
+    color: white;
+    font-size: 10em;
+    margin-top: 50%;
+}
+
+.loader {
+    margin-top: 3em;
+    display: inline-block;
+    border: 10px solid #579;
+    border-top: 10px solid #fff;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.signinInput {
+    border-color: darkgrey;
+    padding-left: 5px;
+    min-height: 50px;
+    margin: 5px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+.signinButton {
+    color: #fff;
+    background-color: #135;
+    border-color: darkgrey;
+    min-height: 50px;
+    margin: 5px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 2em;
+}
+
+#err {
+    margin-top: 2em;
+    color: yellow;
+    font-size: 1.2em;
+}

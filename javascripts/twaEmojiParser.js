@@ -1,5 +1,4 @@
-function parsed(text) {
-    'use strict';
+module.exports = function parsed(text) {
     var emoji = [
         {
             re: /:-\)/g,
@@ -90,4 +89,4 @@ function parsed(text) {
         text = text.replace(emo.re, '<i class="twa twa-' + emo.name + ' twa-lg"></i>');
     });
     return text;
-}
+};

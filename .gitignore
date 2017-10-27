@@ -2,3 +2,5 @@
 node_modules
 # log files
 log
+# webpack directory
+dist
