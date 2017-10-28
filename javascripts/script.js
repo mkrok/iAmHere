@@ -65,8 +65,27 @@ const Login = () => {
 };
 
 
-const Register = () =>
-    <button id="register" className="signinButton" type="button">Register</button>;
+const Register = () => {
+    let handleClick = () => {
+        document.getElementById('err').style.visibility = 'hidden';
+        username = document.getElementById('username').value.trim();
+        password = document.getElementById('password').value.trim();
+        var re = new RegExp('^[A-Za-z0-9_]{3,16}$');
+        if (re.test(username) && re.test(password)) {
+            if (username === '' || password === '') {
+                document.getElementById('err').style.visibility = 'visible';
+                document.getElementById('err').innerHTML = 'Please fill the form';
+            } else {
+                var salt = Math.round((new Date()).getTime() * Math.random());
+                socket.emit('register', username, password, salt);
+            }
+        } else {
+            document.getElementById('err').style.visibility = 'visible';
+            document.getElementById('err').innerHTML = 'Invalid username or password';
+        }
+    };
+    return (<button id="register" className="signinButton" onClick={handleClick} type="button">Register</button>);
+};
 
 const Username = () =>
     <input id="username" className="signinInput" type="text" maxLength="10" placeholder="username" required autoFocus/>;
