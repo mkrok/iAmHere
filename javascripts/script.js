@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import ioClient from 'socket.io-client';
 import '../stylesheets/styles.css';
 import '../stylesheets/font-awesome.min.css';
@@ -70,13 +69,13 @@ const Register = () => {
         document.getElementById('err').style.visibility = 'hidden';
         username = document.getElementById('username').value.trim();
         password = document.getElementById('password').value.trim();
-        var re = new RegExp('^[A-Za-z0-9_]{3,16}$');
+        let re = new RegExp('^[A-Za-z0-9_]{3,16}$');
         if (re.test(username) && re.test(password)) {
             if (username === '' || password === '') {
                 document.getElementById('err').style.visibility = 'visible';
                 document.getElementById('err').innerHTML = 'Please fill the form';
             } else {
-                var salt = Math.round((new Date()).getTime() * Math.random());
+                let salt = Math.round((new Date()).getTime() * Math.random());
                 socket.emit('register', username, password, salt);
             }
         } else {
@@ -595,7 +594,6 @@ function set_dimensions() {
         $mapa = document.getElementById('mapa'),
         $privateChat = document.getElementById('privateChat'),
         $privateMessages = document.getElementById('privateMessages'),
-        $stopka = document.getElementById('stopka'),
         $signin = document.getElementById('signin'),
         $splashText = document.getElementById('splashText'),
         $username = document.getElementById('username'),
@@ -613,18 +611,17 @@ function set_dimensions() {
     // set the dimensions of some elements as the difference between
     // the window height and the fixed height of some other elements
     $wrapper.style.width = windowWidth - 100 + 'px';
-    $chat.style.height = windowHeight - 110 + 'px';
-    $privateChat.style.height = windowHeight - 110 + 'px';
-    $stopka.style.width = windowWidth + 'px';
+    $chat.style.height = windowHeight - 210 + 'px';
+    $privateChat.style.height = windowHeight - 210 + 'px';
     $signin.style.height = windowHeight - 50 + 'px';
     $signin.style.width = windowWidth + 'px';
-    $messages.style.height = windowHeight - 230 + 'px';
+    $messages.style.height = windowHeight - 330 + 'px';
     $messages.scrollTop = $messages.scrollHeight;
-    $users.style.height = windowHeight - 230 + 'px';
+    $users.style.height = windowHeight - 330 + 'px';
     $users.scrollTop = $users.scrollHeight;
-    $privateMessages.style.height = windowHeight - 230 + 'px';
+    $privateMessages.style.height = windowHeight - 330 + 'px';
     $privateMessages.scrollTop = $privateMessages.scrollHeight;
-    $mapa.style.height = windowHeight - 110 + 'px';
+    $mapa.style.height = windowHeight - 210 + 'px';
     if (typeof google !== 'undefined') {
         google.maps.event.trigger(map,'resize');
     }
@@ -661,7 +658,7 @@ socket.on('connect', function () {
     setTimeout(function () {
         if (authorized) {
             document.getElementById('mapa').style.display = 'block';
-            document.getElementById('stopka').style.display = 'none';
+            document.getElementById('stopka').style.display = 'block';
             document.getElementById('chat').style.display = 'block';
             document.getElementById('privateChat').style.display = 'block';
             document.getElementById('chatForm').style.display = 'block';
@@ -716,12 +713,11 @@ socket.on('authAck', function (user) {
     document.getElementById('signin').style.display = 'none';
     document.getElementById('naglowek').style.display = 'block';
     document.getElementById('mapa').style.display = 'block';
-    document.getElementById('stopka').style.display = 'none';
+    document.getElementById('stopka').style.display = 'block';
     document.getElementById('chat').style.display = 'block';
     document.getElementById('privateChat').style.display = 'block';
     document.getElementById('chatForm').style.display = 'block';
     document.getElementById('privateChatForm').style.display = 'block';
-    document.getElementById('stopka').style.display = 'none';
     $(window).trigger('resize');
     setInterval(function () {
         socket.emit('who');

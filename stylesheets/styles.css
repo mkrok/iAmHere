@@ -80,6 +80,7 @@ a {
 
 #wrapper {
     margin: auto;
+    margin-top: 1em;
     width: 100%;
     min-width: 800px;
 }
@@ -97,6 +98,7 @@ a {
     font-size: 1.5em;
     border-bottom-style: solid;
     border: 1px;
+    margin-top: 0.5em;
 }
 
 #naglowek_content {
@@ -159,15 +161,14 @@ a {
 }
 
 #stopka {
-    color: darkgrey;
     margin: 0;
     padding: 0;
     position: fixed;
     bottom: 0;
-    height: 50px;
+    height: 80px;
     width: 100%;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1em;
 }
 
 @media screen and (min-width: 1024px){
